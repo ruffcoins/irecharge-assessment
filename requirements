@@ -1,0 +1,19 @@
+requirements
+
+Features
+1. Popular Cities List
+2. Temperature Component for Cities
+3. Remove each cities from List
+
+4. City detail page - with additional weather information
+5. Save notes on the city's weather
+6. Edit or delete notes
+
+7. City search for other cities
+8. Clicking on it opens the city in the city details page
+
+9. Favourite lists
+10. Add to favourite and remove from favourite
+11. Favourite cities should be at the top of the popular cities on the homepage sorted alphabetically
+
+12. 
