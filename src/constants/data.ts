@@ -1,0 +1,17 @@
+export const PopularCities = [
+  "Tokyo",
+  "Delhi",
+  "Shanghai",
+  "São Paulo",
+  "Mexico City",
+  "Dhaka",
+  "Cairo",
+  "Beijing",
+  "Mumbai",
+  "Osaka",
+  "Karachi",
+  "Chongqing",
+  "Istanbul",
+  "Buenos Aires",
+  "Kolkata",
+]
