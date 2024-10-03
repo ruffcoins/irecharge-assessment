@@ -20,7 +20,7 @@ const useCurrentLocation = () => {
           const city = `${latitude.toString()}+${longitude.toString()}`
           setLoading(true);
           const weather = await getWeatherData(city)
-          setCurrentWeather(weather);
+          setCurrentWeather(weather as WeatherData);
           saveToLocalStorage("current-location-weather", weather)
           setLoading(false)
         });

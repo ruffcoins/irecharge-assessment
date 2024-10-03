@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { WeatherData } from "../interfaces/responses/weatherData.interface";
+import { WeatherData, WeatherDataErrorResponse } from "../interfaces/responses/weatherData.interface";
 import { PopularCities } from "../constants/data";
 import { getFromLocalStorage, saveToLocalStorage } from "../lib/storage";
 
@@ -10,8 +10,9 @@ const useFetchWeatherData = () => {
   const [weatherData, setWeatherData] = useState<WeatherData[]>(() => {
     return popularCities ? popularCities : [];
   });
+  const [subscriptionLimitMessage, setSubscriptionLimitMessage] = useState("");
 
-  const getWeatherData = async (city: string): Promise<WeatherData> => {
+  const getWeatherData = async (city: string): Promise<WeatherData | WeatherDataErrorResponse> => {
     const { data } = await axios.get(`${import.meta.env.VITE_WEATHERSTACK_API_URL}/current`, {
       params: {
         access_key: import.meta.env.VITE_WEATHERSTACK_API_KEY,
@@ -24,7 +25,15 @@ const useFetchWeatherData = () => {
   useEffect(() => {
     const fetchWeatherData = async () => {
       const data = await Promise.all(PopularCities.map(city => getWeatherData(city)));
-      setWeatherData(data);
+
+      if ('error' in data[0]) {
+        if (data[0].error.code === 104) {
+          setWeatherData([])
+          setSubscriptionLimitMessage("Your monthly usage limit has been reached. Please upgrade your Subscription Plan.")
+        } else {
+          setWeatherData(data as WeatherData[]);
+        }
+      }
     };
 
     if (popularCities && popularCities.length > 0) {
@@ -44,7 +53,7 @@ const useFetchWeatherData = () => {
     getWeatherData(city);
   }
 
-  return { weatherData, setWeatherData, handleSuggestionClick, getWeatherData };
+  return { subscriptionLimitMessage, weatherData, setWeatherData, handleSuggestionClick, getWeatherData };
 }
 
 export default useFetchWeatherData;

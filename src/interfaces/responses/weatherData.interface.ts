@@ -41,3 +41,14 @@ export interface Current {
   visibility: number
   is_day: string
 }
+
+
+export interface WeatherDataErrorResponse {
+  success: boolean
+  error: Error
+}
+
+export interface Error {
+  code: number
+  info: string
+}

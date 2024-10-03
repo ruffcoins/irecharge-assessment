@@ -31,7 +31,6 @@ export default function WeatherSearchAndFavorites() {
       setIsSuggesting(true)
       results = await getLocation(searchTerm);
       setIsSuggesting(false)
-      console.log("results", results.results)
 
       if (results.results.length > 0) {
         setSuggestions(results.results)
@@ -55,7 +54,7 @@ export default function WeatherSearchAndFavorites() {
     const results = await getWeatherData(city)
 
     if (results) {
-      setSearchResults(results)
+      setSearchResults(results as WeatherData)
     } else {
       setSearchResults(`No Weather found for ${city}`)
     }

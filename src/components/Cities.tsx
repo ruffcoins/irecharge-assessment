@@ -9,7 +9,7 @@ import { greeting } from "../lib/getGreeting";
 const WeatherCard = lazy(() => import("./WeatherCard"));
 
 const Cities = () => {
-  const { weatherData } = useFetchWeatherData();
+  const { subscriptionLimitMessage, weatherData } = useFetchWeatherData();
 
   return (
     <div className="p-4 space-y-8">
@@ -26,13 +26,16 @@ const Cities = () => {
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 lg:gap-8 lg:px-14">
-        {weatherData.sort((a, b) => a.location.name.localeCompare(b.location.name)).map((city, index) => (
-          <Link key={index} to={`/city-detail/${city.location.name}`} state={city}>
-            <Suspense fallback={<Loading />}>
-              <WeatherCard city={city} />
-            </Suspense>
-          </Link>
-        ))}
+        {weatherData.length > 0 ? (
+          weatherData.sort((a, b) => a.location.name.localeCompare(b.location.name)).map((city, index) => (
+            <Link key={index} to={`/city-detail/${city.location.name}`} state={city}>
+              <Suspense fallback={<Loading />}>
+                <WeatherCard city={city} />
+              </Suspense>
+            </Link>
+          ))
+        ) : <p className="my-20 text-center col-span-full text-muted-foreground">{subscriptionLimitMessage}</p>}
+
       </div>
     </div>
   )
